@@ -131,7 +131,6 @@ jobs:
           - testenv: py311-pyqt65
             os: ubuntu-22.04
             python: 3.11
-            args: "-sv"
     runs-on: "${{ matrix.os }}"
     steps:
       - uses: actions/checkout@v3
