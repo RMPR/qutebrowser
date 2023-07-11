@@ -206,7 +206,7 @@ jobs:
             python -m pip install -U pip
             python -m pip install -U -r misc/requirements/requirements-tox.txt
       - name: "Run ${{ matrix.testenv }}"
-        run: "dbus-run-session -- tox -e ${{ matrix.testenv }} -- ${{ matrix.args }}"
+        run: "dbus-run-session -- tox -e ${{ matrix.testenv }} -- ${{ matrix.args }} -- --junit-xml=junit.xml"
         if: "startsWith(matrix.os, 'ubuntu-')"
       - name: "Run ${{ matrix.testenv }} without DBus"
         run: "tox -e ${{ matrix.testenv }} -- ${{ matrix.args }}"
@@ -219,6 +219,16 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           name: "${{ matrix.testenv }}"
+      - name: Upload test results to BuildPulse for flaky test detection
+        if: '!cancelled()' # Run this step even when the tests fail. Skip if the workflow is cancelled.
+        uses: buildpulse/buildpulse-action@main
+        with:
+          account: 21955151
+          repository: 21244505
+          path: |
+            junit.xml
+          key: ${{ secrets.BUILDPULSE_ACCESS_KEY_ID }}
+          secret: ${{ secrets.BUILDPULSE_SECRET_ACCESS_KEY }}
 
   codeql:
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
