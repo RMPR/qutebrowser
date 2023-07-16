@@ -4,6 +4,7 @@ on:
     branches-ignore:
       - 'update-dependencies'
       - 'dependabot/*'
+      - 'feat/test_pre_release_pyinstaller'
   pull_request:
 env:
   FORCE_COLOR: "1"
