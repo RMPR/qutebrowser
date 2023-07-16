@@ -14,38 +14,6 @@ jobs:
       matrix:
         include:
           - os: macos-11
-            toxenv: build-release
-            name: macos
-          - os: windows-2019
-            args: --64bit
-            toxenv: build-release
-            name: windows-64bit
-          - os: windows-2019
-            args: --32bit
-            toxenv: build-release
-            name: windows-32bit
-
-          - os: macos-11
-            args: --debug
-            toxenv: build-release
-            name: macos-debug
-          - os: windows-2019
-            args: --64bit --debug
-            toxenv: build-release
-            name: windows-64bit-debug
-          - os: windows-2019
-            args: --32bit --debug
-            toxenv: build-release
-            name: windows-32bit-debug
-
-          - os: macos-11
-            toxenv: build-release-qt6
-            name: qt6-macos
-          - os: windows-2019
-            args: --64bit
-            toxenv: build-release-qt6
-            name: qt6-windows-64bit
-          - os: macos-11
             args: --debug
             toxenv: build-release-qt6
             name: qt6-macos-debug
@@ -87,5 +55,13 @@ jobs:
             dist/qutebrowser-*.dmg
             dist/qutebrowser-*-windows-standalone-*.zip
             dist/qutebrowser-*-*.exe
+          if-no-files-found: error
+      - name: Upload dist on failure
+        uses: actions/upload-artifact@v3
+        if: "failure()"
+        with:
+          name: "qutebrowser-nightly-pyinstaller-test-failure-${{ steps.info.outputs.date }}-${{ steps.info.outputs.sha_short }}-${{ matrix.name }}"
+          path: |
+            dist/
           if-no-files-found: error
 
