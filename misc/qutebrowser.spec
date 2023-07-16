@@ -103,7 +103,7 @@ DEBUG = os.environ.get('PYINSTALLER_DEBUG', '').lower() in ['1', 'true']
 if DEBUG:
   options = options = [('v', None, 'OPTION')]
 else:
-  options = None
+  options = []
 
 
 
