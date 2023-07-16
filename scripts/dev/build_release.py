@@ -133,7 +133,7 @@ def _smoke_test_run(
         'about:blank',
         ':later 500 quit',
     ]
-    return subprocess.run(argv, check=True, capture_output=True)
+    return subprocess.run(argv, capture_output=True)
 
 
 def smoke_test(executable: pathlib.Path, debug: bool, qt6: bool) -> None:
@@ -194,15 +194,14 @@ def smoke_test(executable: pathlib.Path, debug: bool, qt6: bool) -> None:
         ])
 
     proc = _smoke_test_run(executable)
-    if debug:
-        print("Skipping output check for debug build")
-        return
 
     stdout = '\n'.join(_filter_whitelisted(proc.stdout, stdout_whitelist))
     stderr = '\n'.join(_filter_whitelisted(proc.stderr, stderr_whitelist))
 
-    if stdout or stderr:
-        print("Unexpected output, running with --debug")
+    if stdout or stderr or proc.returncode > 0:
+        print(
+            f"Unexpected output, running with --debug (returncode={proc.returncode})"
+        )
         proc = _smoke_test_run(executable, '--debug')
         debug_stdout = proc.stdout.decode('utf-8')
         debug_stderr = proc.stderr.decode('utf-8')
@@ -244,6 +243,9 @@ def smoke_test(executable: pathlib.Path, debug: bool, qt6: bool) -> None:
                 "",
             ]
 
+        if debug:
+            print("Skipping output check for debug build")
+            return
         raise Exception("\n".join(lines))  # pylint: disable=broad-exception-raised
 
 
