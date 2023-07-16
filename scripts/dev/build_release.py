@@ -203,8 +203,8 @@ def smoke_test(executable: pathlib.Path, debug: bool, qt6: bool) -> None:
             print(
                 f"Unexpected output (errno={proc.returncode})"
             )
-            debug_stdout = stdout
-            debug_stderr = stderr
+            debug_stdout = None
+            debug_stderr = None
         else:
             print(
                 f"Unexpected output, running with --debug (errno={proc.returncode})"
