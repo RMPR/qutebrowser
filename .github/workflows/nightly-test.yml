@@ -79,7 +79,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: "qutebrowser-nightly-${{ steps.info.outputs.date }}-${{ steps.info.outputs.sha_short }}-${{ matrix.name }}"
+          name: "qutebrowser-nightly-pyinstaller-test-${{ steps.info.outputs.date }}-${{ steps.info.outputs.sha_short }}-${{ matrix.name }}"
           path: |
             dist/qutebrowser-*.dmg
             dist/qutebrowser-*-windows-standalone-*.zip
