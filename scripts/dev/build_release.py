@@ -250,9 +250,6 @@ def smoke_test(executable: pathlib.Path, debug: bool, qt6: bool) -> None:
                 "",
             ]
 
-        if debug:
-            print("Not raising smoke test error for debug build")
-            return
         raise Exception("\n".join(lines))  # pylint: disable=broad-exception-raised
 
 
