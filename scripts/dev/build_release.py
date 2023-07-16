@@ -268,6 +268,15 @@ def patch_mac_app(qt6: bool) -> None:
     # Replace some duplicate files by symlinks
     framework_path = pyqt_path / f'Qt{ver}' / 'lib' / 'QtWebEngineCore.framework'
 
+    if True:
+        # disable dedup symlinking for now for testing
+        # qutebrowser.app/Contents/{Resources,Frameworks}/ look entirely
+        # duplicated (except Resources has an extra `qutebrowser.icns`) with
+        # PyInstaller 6 with the zip downloaded from GH artifacts. But they
+        # might actually be symlinked but the symlinks got broken by the zip
+        # process, not sure.
+        return
+
     framework_resource_path = framework_path / 'Resources'
     for file_path in framework_resource_path.iterdir():
         target = pathlib.Path(*[os.pardir] * 5, file_path.name)
