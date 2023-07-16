@@ -2,6 +2,9 @@ name: Nightly builds - pyinstaller develop
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - 'feat/test_pre_release_pyinstaller'
 
 jobs:
   pyinstaller:
