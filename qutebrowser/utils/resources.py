@@ -59,8 +59,8 @@ def _path(filename: str) -> _ResourceType:
 
         # __file__ is qutebrowser.app/Contents/Frameworks/qutebrowser/utils/resources.pyc
         # sys._MEIPASS is qutebrowser.app/Contents/Frameworks
-        print(f"{__file__=}", sys.stderr)
-        print(f"{sys._MEIPASS=}", sys.stderr)
+        # print(f"{__file__=}", sys.stderr)
+        # print(f"{sys._MEIPASS=}", sys.stderr)
         return pathlib.Path(__file__).parent.parent.parent / filename
 
     return importlib_resources.files(qutebrowser) / filename
