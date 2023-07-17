@@ -52,6 +52,8 @@ def _path(filename: str) -> _ResourceType:
     if hasattr(sys, 'frozen'):
         # For PyInstaller, where we can't store resource files in a qutebrowser/ folder
         # because the executable is already named "qutebrowser" (at least on macOS).
+        print(f"{__file__=}", sys.stderr)
+        print(f"{sys._MEIPASS=}", sys.stderr)
         return pathlib.Path(sys.executable).parent / filename
 
     return importlib_resources.files(qutebrowser) / filename
