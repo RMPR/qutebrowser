@@ -49,20 +49,6 @@ def _path(filename: str) -> _ResourceType:
     assert not posixpath.isabs(filename), filename
     assert os.path.pardir not in filename.split(posixpath.sep), filename
 
-    if hasattr(sys, 'frozen'):
-        # For PyInstaller, where we can't store resource files in a qutebrowser/ folder
-        # because the executable is already named "qutebrowser" (at least on macOS).
-        # __file__='/Users/runner/work/qutebrowser/qutebrowser/dist/qutebrowser.app/Contents/Frameworks/qutebrowser/utils/resources.pyc' <_io.TextIOWrapper name='<stderr>' mode='w' encoding='utf-8'>
-        # sys._MEIPASS='/Users/runner/work/qutebrowser/qutebrowser/dist/qutebrowser.app/Contents/Frameworks' <_io.TextIOWrapper name='<stderr>' mode='w' encoding='utf-8'>
-        # __file__='/Users/runner/work/qutebrowser/qutebrowser/dist/qutebrowser.app/Contents/Frameworks/qutebrowser/utils/resources.pyc' <_io.TextIOWrapper name='<stderr>' mode='w' encoding='utf-8'>
-        # sys._MEIPASS='/Users/runner/work/qutebrowser/qutebrowser/dist/qutebrowser.app/Contents/Frameworks' <_io.TextIOWrapper name='<stderr>' mode='w' encoding='utf-8'>
-
-        # __file__ is qutebrowser.app/Contents/Frameworks/qutebrowser/utils/resources.pyc
-        # sys._MEIPASS is qutebrowser.app/Contents/Frameworks
-        # print(f"{__file__=}", sys.stderr)
-        # print(f"{sys._MEIPASS=}", sys.stderr)
-        return pathlib.Path(__file__).parent.parent.parent / filename
-
     return importlib_resources.files(qutebrowser) / filename
 
 @contextlib.contextmanager
